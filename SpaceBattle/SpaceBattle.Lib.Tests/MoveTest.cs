@@ -1,10 +1,11 @@
-using Xunit;
+using System;
 using Moq;
+using Xunit;
 
 using SpaceBattle.Lib;
 namespace SpaceBattle.Lib.Tests
 {
-    public class MoveTest_1
+    public class MoveTest
     {
         [Fact]
         public void Test1()
@@ -50,7 +51,17 @@ namespace SpaceBattle.Lib.Tests
         [Fact]
         public void Test4()
         {
+            var obj_moving = new Mock<IMoving>();
 
+            obj_moving.SetupGet(a => a.Position).Returns(new Vector(12, 5));
+            obj_moving.SetupGet(a => a.Velocity).Returns(new Vector(-7, 3));
+
+            obj_moving.SetupSet(a => a.Position = new Vector(5,8)).Throws(new InvalidOperationException("Нельзя изменить положение объекта"));
+
+            var command = new MoveCommand(obj_moving.Object);
+
+            var exception = Assert.Throws<InvalidOperationException>(() => command.Execute());
+            Assert.Equal("Нельзя изменить положение объекта", exception.Message);
         }
     
     }    
