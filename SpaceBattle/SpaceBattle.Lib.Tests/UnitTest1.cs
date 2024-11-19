@@ -3,6 +3,7 @@ using SpaceBattle.Lib;
 
 namespace SpaceBattle.Lib.Tests;
 public class Tests
+public class Tests
 {
     [Fact]
     public void MoveTest()
@@ -109,33 +110,3 @@ public class Tests
     }
 
 }
-/*[Fact]
-public void TestPositionRaisesException()
-{
-    // G
-    var moving = new Mock<IMoving>();
-    moving.SetupGet(m => m.Position).Throws<Exception>();
-    moving.SetupGet(m => m.Velocity).Returns(new Vector(1, 1));
-    // When
-    var cmd = new Move(moving.Object);
-    // Then
-
-    Assert.Throws<Exception>(
-        () => cmd.Execute()
-    );
-}
-
-[Fact]
-
-public void TestVelocityRaisesEception()
-{
-    var moving = new Mock<IMoving>();
-    moving.SetupGet(m => m.Position).Returns(new Vector(1, 1));
-    moving.SetupGet(m => m.Velocity).Throws<Exception>();
-
-    var cmd = new Move(moving.Object);
-
-    Assert.Throws<Exception>(
-        () => cmd.Execute()
-    );
-}*/
