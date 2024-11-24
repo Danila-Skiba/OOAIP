@@ -1,8 +1,8 @@
 using Moq;
 using SpaceBattle.Lib;
 
+
 namespace SpaceBattle.Lib.Tests;
-public class Tests
 public class Tests
 {
     [Fact]
@@ -42,7 +42,6 @@ public class Tests
 
 
         Assert.Throws<Exception>(() => new Move(moving.Object).Execute());
-
     }
 
     [Fact]
