@@ -13,11 +13,17 @@ public class Vector
 
     public override bool Equals(object obj)
     {
+        if (obj == null) return false;
         if (obj is Vector vector) 
         {
             return this.X == vector.X && this.Y == vector.Y;
         }
         return false;
+    }
+
+    public override bool GetHashCode()
+    {
+        return HashCode.Combine(X, Y);
     }
 }
 
