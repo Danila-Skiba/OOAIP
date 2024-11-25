@@ -25,4 +25,4 @@ jobs:
         run: cd SpaceBattle/SpaceBattle.Lib && dotnet build --no-restore && cd ../..
 
       - name: SpaceBattle-Unit-Test
-        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet test --collect:"XPlat Code Coverage" --settings ./coverlet.runsettings --results-directory ./coverage
