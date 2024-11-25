@@ -11,9 +11,8 @@ public class Vector
         Y = y;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
-        if (obj == null) return false;
         if (obj is Vector vector) 
         {
             return this.X == vector.X && this.Y == vector.Y;
@@ -21,7 +20,7 @@ public class Vector
         return false;
     }
 
-    public override bool GetHashCode()
+    public override int GetHashCode()
     {
         return HashCode.Combine(X, Y);
     }
