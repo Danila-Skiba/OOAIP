@@ -12,13 +12,21 @@ public class Angle
         return new Angle(u1.A + u2.A);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
+
         if (obj is Angle angle)
         {
             return this.A == angle.A;
         }
 
-        return false;
+        else{return false;}
+
+        
+    }
+
+    public override int GetHashCode()
+    {
+            return HashCode.Combine(A);
     }
 }

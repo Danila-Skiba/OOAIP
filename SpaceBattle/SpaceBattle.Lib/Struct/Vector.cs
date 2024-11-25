@@ -8,12 +8,21 @@ public class Vector
         Y = y;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
+
+      
         if (obj is Vector vector)
         {
             return this.X == vector.X && this.Y == vector.Y;
         }
-        return false;
+        else{
+            return false;
+        }
     }
+
+    public override int GetHashCode()
+        {
+            return HashCode.Combine(X,Y);
+        }
 }
