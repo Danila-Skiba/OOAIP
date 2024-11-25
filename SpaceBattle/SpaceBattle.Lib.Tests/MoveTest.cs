@@ -12,7 +12,7 @@ namespace SpaceBattle.Lib.Tests
         {
             var obj_moving = new Mock<IMoving>();
 
-            obj_moving.SetupProperty(a => a.Position, new Vector ( 12, 5 ));
+            obj_moving.SetupGet(a => a.Position, new Vector ( 12, 5 ));
             obj_moving.SetupGet(a => a.Velocity).Returns(new Vector ( -7, 3 ));
 
             var command = new MoveCommand(obj_moving.Object);
