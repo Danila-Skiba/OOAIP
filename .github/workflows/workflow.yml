@@ -22,7 +22,7 @@ jobs:
         run: dotnet restore ./SpaceBattle/SpaceBattle.Lib
 
       - name: Build
-        run: dotnet build ./SpaceBattle/SpaceBattle.Lib --no-restore
+        run: dotnet build ./SpaceBattle/SpaceBattle.Lib --configuration Debug --no-restore
 
       - name: Test and generate coverage
         run: dotnet test ./SpaceBattle/SpaceBattle.Lib.Tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./coverage-8.0.x/opencover.xml
