@@ -18,7 +18,7 @@ jobs:
           dotnet-version: 8.0.x
  
       - name: Restore dependencies
-        run: dotnet restore SpaceBattle.Tests
+        run: dotnet restore SpaceBattle/SpaceBattle.Lib.Tests
 
       - name: Install Required Tools
         run: |
@@ -27,13 +27,13 @@ jobs:
           dotnet tool install coverlet.console
 
       - name: Build
-        run: dotnet build SpaceBattle.Lib --no-restore /p:ContinuousIntegrationBuild=true
+        run: dotnet build SpaceBattle/SpaceBattle.Lib --no-restore /p:ContinuousIntegrationBuild=true
 
       - name: Test
-        run: cd SpaceBattle.Tests/ &&  dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+        run: cd SpaceBattle/SpaceBattle.Lib.Tests/ &&  dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
 
       - name: Coverage and Tests
-        run: dotnet coverlet SpaceBattle.Tests/bin/Debug/net8.0/SpaceBattle.Tests.dll --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.xml"
+        run: dotnet coverlet SpaceBattle/SpaceBattle.Lib.Tests/bin/Debug/net8.0/SpaceBattle.Tests.dll --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.xml"
 
       - name: Checkstyle
         run: dotnet format --verify-no-changes
