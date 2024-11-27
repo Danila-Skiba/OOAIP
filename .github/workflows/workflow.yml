@@ -22,15 +22,27 @@ jobs:
         run: dotnet restore ./SpaceBattle/SpaceBattle.Lib
 
       - name: Build
-        run: cd SpaceBattle/SpaceBattle.Lib && dotnet build --no-restore && cd ../..
+        run: cd SpaceBattle/SpaceBattle.Lib && dotnet build --no-restore /p:ContinuousIntegrationBuild=true
 
       - name: SpaceBattle-Unit-Test
-        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet test --collect:"XPlat Code Coverage"
-        
-      - name: Checkstyle
-        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet format --verify-no-changes
+        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet test --configuration Debug --no build /p:CollectCoverage=true /p:CoverageOutputFormat=opencover /p:MergeWith=./coverage-8.0.x/opencover.json /p:CoverletOutput=./coverage-8.0.x/opencover.xml
 
       - name: CodeCov
         uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: SpaceBattle/coverage-8.0.x/opencover.xml
+
+      - name: Create Test Badge
+        uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+        id: create_coverage_badge
+        with: 
+          label: Code Coverage
+          color: brightgreen
+          path: SpaceBattle/coverage-8.0.x/opencover.xml
+          gist-filename: code-coverage.json
+          gist-id: 04ba68ccd04af67a7158c3019ce169e9
+          gist-auth-token: ${{ secrets.GIST_SECRET }}
+
+      - name: Print Code Coverage
+        run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
