@@ -28,7 +28,7 @@ jobs:
         run: dotnet build ./SpaceBattle/SpaceBattle.Lib.Tests --configuration Release
 
       - name: Run Tests with Coverage
-        run: dotnet test ./SpaceBattle/SpaceBattle.Lib.Tests --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./SpaceBattle/coverage-8.0.x/opencover.xml
+        run: dotnet test -v d ./SpaceBattle/SpaceBattle.Lib.Tests --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./SpaceBattle/coverage-8.0.x/opencover.xml
 
       - name: Codecov
         uses: codecov/codecov-action@v3
