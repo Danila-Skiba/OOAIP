@@ -25,7 +25,7 @@ jobs:
         run: cd SpaceBattle/SpaceBattle.Lib && dotnet build --no-restore /p:ContinuousIntegrationBuild=true
 
       - name: SpaceBattle-Unit-Test
-        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet test --configuration Debug --no build /p:CollectCoverage=true /p:CoverageOutputFormat=opencover /p:MergeWith=./coverage-8.0.x/opencover.json /p:CoverletOutput=./coverage-8.0.x/opencover.xml
+        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet test --configuration Debug --no-build /p:CollectCoverage=true /p:CoverageOutputFormat=opencover /p:MergeWith=./coverage-8.0.x/opencover.json /p:CoverletOutput=./coverage-8.0.x/opencover.xml
 
       - name: CodeCov
         uses: codecov/codecov-action@v3
