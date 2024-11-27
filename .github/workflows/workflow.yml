@@ -22,6 +22,8 @@ jobs:
         run: dotnet build ./SpaceBattle/SpaceBattle.Lib --configuration Debug --no-restore
       - name: Build Test Project
         run: dotnet build ./SpaceBattle/SpaceBattle.Lib.Tests --configuration Debug
+      - name: Create coverage directory
+        run: mkdir -p ./SpaceBattle/coverage-8.0.x
       - name: Run Tests with Coverage
         run: dotnet test ./SpaceBattle/SpaceBattle.Lib.Tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./SpaceBattle/coverage-8.0.x/opencover.xml
       - name: List directory contents
