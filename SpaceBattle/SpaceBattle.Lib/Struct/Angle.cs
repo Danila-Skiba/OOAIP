@@ -19,14 +19,12 @@ public class Angle
         {
             return this.A == angle.A;
         }
-
         else{return false;}
-
-        
     }
 
     public override int GetHashCode()
     {
             return HashCode.Combine(A);
     }
+
 }

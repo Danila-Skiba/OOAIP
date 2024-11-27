@@ -7,20 +7,19 @@ public class Vector
         X = x;
         Y = y;
     }
+    public Vector(int x, int y, int z) {
+           throw new ArgumentException("Vectors of this type can only have two dimensions (X, Y).");
+        }
 
+        
     public override bool Equals(object? obj)
-    {
-
-      
+    {   
         if (obj is Vector vector)
         {
             return this.X == vector.X && this.Y == vector.Y;
         }
-        else{
-            return false;
-        }
+        return false;
     }
-
     public override int GetHashCode()
         {
             return HashCode.Combine(X,Y);
