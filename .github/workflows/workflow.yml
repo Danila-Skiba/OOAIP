@@ -12,38 +12,35 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-
       - name: Restore dependencies
         run: dotnet restore ./SpaceBattle/SpaceBattle.Lib
-
-      - name: Build
+      - name: Build main project
         run: dotnet build ./SpaceBattle/SpaceBattle.Lib --configuration Debug --no-restore
-
-      - name: Test and generate coverage
-        run: dotnet test ./SpaceBattle/SpaceBattle.Lib.Tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=SpaceBattle/coverage-8.0.x/opencover.xml
-        
+      - name: Build Test Project
+        run: dotnet build ./SpaceBattle/SpaceBattle.Lib.Tests --configuration Debug --no-restore
+      - name: Run Tests with Coverage
+        run: dotnet test ./SpaceBattle/SpaceBattle.Lib.Tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./SpaceBattle/coverage-8.0.x/opencover.xml
+      - name: List directory contents
+        run: ls -la ./SpaceBattle/coverage-8.0.x
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: SpaceBattle/coverage-8.0.x/opencover.xml
-
+          files: ./SpaceBattle/coverage-8.0.x/opencover.xml
       - name: Create Test Coverage Badge
         uses: simon-k/dotnet-code-coverage-badge@v1.0.0
         id: create_coverage_badge
         with:
           label: Code Coverage
           color: brightgreen
-          path: SpaceBattle/coverage-8.0.x/opencover.xml
+          path: ./SpaceBattle/coverage-8.0.x/opencover.xml
           gist-filename: code-coverage.json
-          gist-id: 04ba68ccd04af67a7158c3019ce169e9 # <your_gist_id>
+          gist-id: 04ba68ccd04af67a7158c3019ce169e9
           gist-auth-token: ${{ secrets.GIST_SECRET }}
-
       - name: Print Code Coverage (if successful)
         run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
         if: success()
