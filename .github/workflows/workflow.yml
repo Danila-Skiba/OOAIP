@@ -25,4 +25,12 @@ jobs:
         run: cd SpaceBattle/SpaceBattle.Lib && dotnet build --no-restore && cd ../..
 
       - name: SpaceBattle-Unit-Test
-        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet test --collect:"XPlat Code Coverage" --settings ./coverlet.runsettings --results-directory ./coverage
+        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet test --collect:"XPlat Code Coverage"
+        
+      - name: Checkstyle
+        run: cd SpaceBattle/SpaceBattle.Lib.Tests && dotnet format --verify-no-changes
+
+      - name: CodeCov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
