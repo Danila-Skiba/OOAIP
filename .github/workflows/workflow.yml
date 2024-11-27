@@ -31,7 +31,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: SpaceBattle/coverage-8.0.x/opencover.xml
+          files: ./coverage-8.0.x/opencover.xml
 
       - name: Create Test Badge
         uses: simon-k/dotnet-code-coverage-badge@v1.0.0
@@ -39,7 +39,7 @@ jobs:
         with: 
           label: Code Coverage
           color: brightgreen
-          path: SpaceBattle/coverage-8.0.x/opencover.xml
+          path: ./coverage-8.0.x/opencover.xml
           gist-filename: code-coverage.json
           gist-id: 04ba68ccd04af67a7158c3019ce169e9
           gist-auth-token: ${{ secrets.GIST_SECRET }}
