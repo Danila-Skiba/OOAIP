@@ -8,22 +8,22 @@ namespace SpaceBattle.Lib.Tests
     public class MoveTest
     {
         [Fact]
-        public void Test1()
+        public void TestObjectMove()
         {
             var obj_moving = new Mock<IMoving>();
 
-            obj_moving.SetupGet(a => a.Position).Returns(new Vector (12, 5 ));
-            obj_moving.SetupGet(a => a.Velocity).Returns(new Vector ( -7, 3 ));
+            obj_moving.SetupGet(a => a.Position).Returns(new Vector (new int[] {12, 5}));
+            obj_moving.SetupGet(a => a.Velocity).Returns(new Vector (new int[] {-7, 3}));
 
             var command = new MoveCommand(obj_moving.Object);
             command.Execute();
 
-            obj_moving.VerifySet(a => a.Position = new Vector ( 5, 8 ));
+            obj_moving.VerifySet(a => a.Position = new Vector (new int[] {5, 8}));
         }
 
 
         [Fact]
-        public void Test2()
+        public void TestPositionObjectCannotRead()
         {
             var obj_moving = new Mock<IMoving>();
             obj_moving.SetupGet(a => a.Position).Throws(new InvalidOperationException("Нельзя прочитать положение объекта"));
@@ -35,11 +35,11 @@ namespace SpaceBattle.Lib.Tests
         }
 
         [Fact]
-        public void Test3()
+        public void TestVelocityObjectCannotRead()
         {
             var obj_moving = new Mock<IMoving>();
 
-            obj_moving.SetupGet(a => a.Position).Returns(new Vector(12, 5));
+            obj_moving.SetupGet(a => a.Position).Returns(new Vector(new int[] {12, 5}));
             obj_moving.SetupGet(a => a.Velocity).Throws(new InvalidOperationException("Нельзя прочитать скорость объекта"));
             
             var command = new MoveCommand(obj_moving.Object);
@@ -49,14 +49,14 @@ namespace SpaceBattle.Lib.Tests
         }
 
         [Fact]
-        public void Test4()
+        public void TestImpossibleChangePositionObject()
         {
             var obj_moving = new Mock<IMoving>();
 
-            obj_moving.SetupGet(a => a.Position).Returns(new Vector(12, 5));
-            obj_moving.SetupGet(a => a.Velocity).Returns(new Vector(-7, 3));
+            obj_moving.SetupGet(a => a.Position).Returns(new Vector (new int[] {12, 5}));
+            obj_moving.SetupGet(a => a.Velocity).Returns(new Vector (new int[] {-7, 3}));
 
-            obj_moving.SetupSet(a => a.Position = new Vector(5,8)).Throws(new InvalidOperationException("Нельзя изменить положение объекта"));
+            obj_moving.SetupSet(a => a.Position = new Vector(new int[] {5, 8})).Throws(new InvalidOperationException("Нельзя изменить положение объекта"));
 
             var command = new MoveCommand(obj_moving.Object);
 

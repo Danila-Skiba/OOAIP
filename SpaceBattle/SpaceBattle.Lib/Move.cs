@@ -22,7 +22,7 @@ namespace SpaceBattle.Lib
         }
         public void Execute()
         {
-            moving.Position = new Vector(moving.Position.X + moving.Velocity.X, moving.Position.Y + moving.Velocity.Y);
+            moving.Position += moving.Velocity;
         }
     }
 }
