@@ -16,7 +16,7 @@ jobs:
         with:
           dotnet-version: 8.0.x
       - name: Restore dependencies
-        run: dotnet restore SpaceBattle/SpaceBattle.Lib/SpaceBattle.Lib.csproj SpaceBattle/SpaceBattle.Lib.Tests/SpaceBattle.Lib.Tests.csproj
+        run: dotnet restore SpaceBattle/SpaceBattle.Lib.Tests
       - name: Build
         run: dotnet build SpaceBattle/SpaceBattle.Lib/SpaceBattle.Lib.csproj --no-restore /p:ContinuousIntegrationBuild=true
       - name: Check coverlet version
