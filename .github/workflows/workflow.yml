@@ -11,29 +11,27 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 8.0.x
- 
       - name: Restore dependencies
-        run: dotnet restore SpaceBattle/SpaceBattle.Lib.Tests
-
+        run: dotnet restore SpaceBattle/SpaceBattle.Lib.Tests/SpaceBattle.Lib.Tests.csproj
       - name: Install Required Tools
         run: |
           dotnet new tool-manifest
           dotnet tool install dotnet-coverage
           dotnet tool install coverlet.console
-
       - name: Build
-        run: dotnet build SpaceBattle/SpaceBattle.Lib --no-restore /p:ContinuousIntegrationBuild=true
-
+        run: dotnet build SpaceBattle/SpaceBattle.Lib/SpaceBattle.Lib.csproj --no-restore /p:ContinuousIntegrationBuild=true
       - name: Test
-        run: cd SpaceBattle/SpaceBattle.Lib.Tests/ &&  dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
-
-      - name: Coverage and Tests
-        run: dotnet coverlet --workingdir=SpaceBattle/SpaceBattle.Lib.Tests . --target "dotnet" --targetargs "test SpaceBattle.Lib.Tests.csproj --no-build" -f=opencover -o="coverage.xml"
-
+        run: dotnet test SpaceBattle/SpaceBattle.Lib.Tests/SpaceBattle.Lib.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+      - name: Generate coverage report
+        run: dotnet cover -c /p:CoverletOutputFormat=cobertura /summaryOnly -o coverage.xml --targetdir ./coverage
+      - name: Upload coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/coverage.xml
       - name: Checkstyle
         run: dotnet format --verify-no-changes
