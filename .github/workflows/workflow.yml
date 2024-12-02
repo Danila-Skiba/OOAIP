@@ -30,7 +30,7 @@ jobs:
         run: dotnet build SpaceBattle/SpaceBattle.Lib --no-restore /p:ContinuousIntegrationBuild=true
 
       - name: Test
-        run: cd SpaceBattle/SpaceBattle.Lib.Tests/ &&  dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+        run: cd SpaceBattle/SpaceBattle.Lib.Tests/ &&  dotnet test /p:CoverletOutputFormat=cobertura
 
       - name: Coverage and Tests
         run: dotnet coverlet SpaceBattle/SpaceBattle.Lib.Tests/SpaceBattle.Lib.Tests.csproj --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.xml"
