@@ -11,34 +11,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 8.0.x
- 
       - name: Restore dependencies
-        run: dotnet restore SpaceBattle/SpaceBattle.Lib.Tests
-
-      - name: Install Required Tools
-        run: |
-          dotnet new tool-manifest
-          dotnet tool install dotnet-coverage
-          dotnet tool install --global coverlet.console
-      - name: Check
-        run: |
-          echo $PATH
-          dotnet --version
-          coverlet --version
-
+        run: dotnet restore SpaceBattle/SpaceBattle.Lib/SpaceBattle.Lib.csproj SpaceBattle/SpaceBattle.Lib.Tests/SpaceBattle.Lib.Tests.csproj
       - name: Build
-        run: dotnet build SpaceBattle/SpaceBattle.Lib --no-restore /p:ContinuousIntegrationBuild=true
-
-      - name: Test
-        run: cd SpaceBattle/SpaceBattle.Lib.Tests/ &&  dotnet test /p:CoverletOutputFormat=cobertura
-
-      - name: Coverage and Tests
-        run: dotnet coverlet SpaceBattle/SpaceBattle.Lib.Tests/SpaceBattle.Lib.Tests.csproj --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.xml"
-
+        run: dotnet build SpaceBattle/SpaceBattle.Lib/SpaceBattle.Lib.csproj --no-restore /p:ContinuousIntegrationBuild=true
+      - name: Check coverlet version
+        run: coverlet --version
+      - name: Test with coverage
+        run: dotnet test SpaceBattle/SpaceBattle.Lib.Tests/SpaceBattle.Lib.Tests.csproj -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(GITHUB_WORKSPACE)/coverage/coverage.cobertura.xml
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: $(GITHUB_WORKSPACE)/coverage
       - name: Checkstyle
         run: dotnet format --verify-no-changes
