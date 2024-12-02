@@ -24,7 +24,7 @@ jobs:
         run: |
           dotnet new tool-manifest
           dotnet tool install dotnet-coverage
-          dotnet tool install coverlet.console
+          dotnet tool install --global coverlet.console
       - name: Check
         run: |
           echo $PATH
