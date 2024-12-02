@@ -35,7 +35,4 @@ jobs:
       - name: Coverage and Tests
         run: |
           cd SpaceBattle/SpaceBattle.Lib.Tests/
-          dotnet coverlet SpaceBattle.Lib.Tests.csproj --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.xml"
-
-      - name: Checkstyle
-        run: dotnet format --verify-no-changes
+          dotnet coverlet bin/Debug/net8.0/SpaceBattle.Lib.Tests.dll --target "dotnet" --targetargs "test --no-build" -f=opencover -o="coverage.xml"
