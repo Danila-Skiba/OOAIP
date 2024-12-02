@@ -2,10 +2,10 @@ using Xunit;
 
 namespace SpaceBattle.Lib.Tests
 {
-    public class SomeClassTests
+    public class UnitTest1
     {
-        [Fact]
-        public void CalculateDamage_PositiveDamage()
+    [Fact]
+        public void Test1()
         {
 
         }
