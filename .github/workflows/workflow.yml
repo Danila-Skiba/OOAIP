@@ -25,6 +25,11 @@ jobs:
           dotnet new tool-manifest
           dotnet tool install dotnet-coverage
           dotnet tool install coverlet.console
+      - name: Check
+        run: |
+          echo $PATH
+          dotnet --version
+          coverlet --version
 
       - name: Build
         run: dotnet build SpaceBattle/SpaceBattle.Lib --no-restore /p:ContinuousIntegrationBuild=true
