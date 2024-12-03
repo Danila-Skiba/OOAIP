@@ -33,7 +33,7 @@ public class Vector
         return System.HashCode.Combine(coordinates);
     }
 
-    public static Vector operator +(Vector? vector1, Vector? vector2)
+    public static Vector operator +(Vector vector1, Vector vector2)
     {
         if (vector1.coordinates.Length != vector2.coordinates.Length)
         {
