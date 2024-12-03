@@ -16,6 +16,7 @@ public class Vector
 
     public override bool Equals(object? obj)
     {
+    
         if (obj is Vector vector && vector.coordinates.Length == this.coordinates.Length) 
         {
             for (int i = 0; i < coordinates.Length; i++)
@@ -34,11 +35,6 @@ public class Vector
 
     public static Vector operator +(Vector? vector1, Vector? vector2)
     {
-        if (vector1 == null || vector2 == null)
-        {
-            throw new ArgumentNullException("Невозможно сложить вектор с null");
-        }
-
         if (vector1.coordinates.Length != vector2.coordinates.Length)
         {
             throw new ArgumentException("Вектора должны иметь одинаковую размерность");
@@ -51,26 +47,6 @@ public class Vector
         }
 
         return new Vector(result);
-    }
-
-    public static bool operator ==(Vector? vector1, Vector? vector2)
-    {
-        if (ReferenceEquals(vector1, null) && ReferenceEquals(vector2, null))
-        {
-            return true;
-        }
-
-        if (ReferenceEquals(vector1, null) || ReferenceEquals(vector2, null))
-        {
-            return false;
-        }
-
-        return vector1.Equals(vector2);
-    }
-
-    public static bool operator !=(Vector vector1, Vector vector2)
-    {
-        return !(vector1 == vector2);
     }
 }
 
