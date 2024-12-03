@@ -29,7 +29,7 @@ public class TestsRotateCommand
 
         Assert.Throws<Exception>(() => new Rotate(rotating.Object).Execute());
     }
-
+ 
     [Fact]
     public void Rotate_CantReadVelocity()
     {

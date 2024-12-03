@@ -1,0 +1,13 @@
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\bin\Debug\net8.0\SpaceBattle.Lib.deps.json
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\bin\Debug\net8.0\SpaceBattle.Lib.dll
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\bin\Debug\net8.0\SpaceBattle.Lib.pdb
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\SpaceBattle.Lib.csproj.AssemblyReference.cache
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\SpaceBattle.Lib.GeneratedMSBuildEditorConfig.editorconfig
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\SpaceBattle.Lib.AssemblyInfoInputs.cache
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\SpaceBattle.Lib.AssemblyInfo.cs
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\SpaceBattle.Lib.csproj.CoreCompileInputs.cache
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\SpaceBattle.Lib.sourcelink.json
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\SpaceBattle.Lib.dll
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\refint\SpaceBattle.Lib.dll
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\SpaceBattle.Lib.pdb
+E:\git_repository\OOAIP\SpaceBattle\SpaceBattle.Lib\obj\Debug\net8.0\ref\SpaceBattle.Lib.dll

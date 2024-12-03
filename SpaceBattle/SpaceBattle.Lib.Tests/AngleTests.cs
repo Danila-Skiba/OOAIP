@@ -4,7 +4,7 @@ namespace SpaceBattle.Lib.Tests;
 
 public class TestsAngle
 {
-    [Fact]
+   [Fact]
     public void AngleEqualsTestUnCorrectAngle(){
         var angle1 = new Angle(45);
 
@@ -50,7 +50,7 @@ public class TestsAngle
 
         var sum_angle_current = angle1+angle2;
 
-        var sum_angle_expected = new Angle(400);
+        var sum_angle_expected = new Angle(40);
 
         Assert.True(sum_angle_current.Equals(sum_angle_expected));
     }
@@ -63,6 +63,7 @@ public class TestsAngle
 
         Assert.Equal(angle1.GetHashCode(),angle2.GetHashCode());
     }
+    
 
     [Fact]
     public void Angle_GetHashCode_DifferentAngles()
