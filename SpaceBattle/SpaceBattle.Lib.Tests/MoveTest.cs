@@ -13,25 +13,23 @@ namespace SpaceBattle.Lib.Tests
             var obj_moving = new Mock<IMoving>();
 
             obj_moving.SetupGet(a => a.Position).Returns(new Vector (new int[] {12, 5}));
-            obj_moving.SetupGet(a => a.Velocity).Returns(new Vector (new int[] {-7, 3}));
+            obj_moving.SetupGet(a => a.Velocity).Returns(new Vector (new int[] {-4, 1}));
 
             var command = new MoveCommand(obj_moving.Object);
             command.Execute();
 
-            obj_moving.VerifySet(a => a.Position = new Vector (new int[] {5, 8}));
+            obj_moving.VerifySet(a => a.Position = new Vector (new int[] {8, 6}));
         }
-
 
         [Fact]
         public void TestPositionObjectCannotRead()
         {
             var obj_moving = new Mock<IMoving>();
-            obj_moving.SetupGet(a => a.Position).Throws(new InvalidOperationException("Нельзя прочитать положение объекта"));
+            obj_moving.SetupGet(a => a.Position).Throws<InvalidOperationException>();
 
             var command = new MoveCommand(obj_moving.Object);
 
-            var exception = Assert.Throws<InvalidOperationException>(() => command.Execute());
-            Assert.Equal("Нельзя прочитать положение объекта", exception.Message);
+            Assert.Throws<InvalidOperationException>(() => command.Execute());
         }
 
         [Fact]
@@ -40,12 +38,11 @@ namespace SpaceBattle.Lib.Tests
             var obj_moving = new Mock<IMoving>();
 
             obj_moving.SetupGet(a => a.Position).Returns(new Vector(new int[] {12, 5}));
-            obj_moving.SetupGet(a => a.Velocity).Throws(new InvalidOperationException("Нельзя прочитать скорость объекта"));
+            obj_moving.SetupGet(a => a.Velocity).Throws<InvalidOperationException>();
             
             var command = new MoveCommand(obj_moving.Object);
             
-            var exception = Assert.Throws<InvalidOperationException>(() => command.Execute());
-            Assert.Equal("Нельзя прочитать скорость объекта", exception.Message);
+            Assert.Throws<InvalidOperationException>(() => command.Execute());
         }
 
         [Fact]
@@ -56,14 +53,11 @@ namespace SpaceBattle.Lib.Tests
             obj_moving.SetupGet(a => a.Position).Returns(new Vector (new int[] {12, 5}));
             obj_moving.SetupGet(a => a.Velocity).Returns(new Vector (new int[] {-7, 3}));
 
-            obj_moving.SetupSet(a => a.Position = new Vector(new int[] {5, 8})).Throws(new InvalidOperationException("Нельзя изменить положение объекта"));
+            obj_moving.SetupSet(a => a.Position = new Vector(new int[] {5, 8})).Throws<InvalidOperationException>();
 
             var command = new MoveCommand(obj_moving.Object);
 
-            var exception = Assert.Throws<InvalidOperationException>(() => command.Execute());
-            Assert.Equal("Нельзя изменить положение объекта", exception.Message);
+            Assert.Throws<InvalidOperationException>(() => command.Execute());
         }
-    
     }    
-
 }

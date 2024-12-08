@@ -48,5 +48,15 @@ public class Vector
 
         return new Vector(result);
     }
+
+    public static bool operator ==(Vector vector1, Vector vector2)
+    {
+        return vector1.Equals(vector2);
+    }
+
+    public static bool operator !=(Vector vector1, Vector vector2)
+    {
+        return !(vector1 == vector2);
+    }
 }
 
