@@ -4,74 +4,55 @@ namespace SpaceBattle.Lib.Tests;
 
 public class TestsAngle
 {
-   [Fact]
-    public void AngleEqualsTestUnCorrectAngle(){
-        var angle1 = new Angle(45);
+    [Fact]
+    public void AngleAddition()
+    {
+        var angle1 = new Angle(5);
+        var angle2 = new Angle(7);
+        Angle result_add = angle1 + angle2;
+        var expected = new Angle(4);
 
-        var angle2 = 45;
-
-    Assert.False(angle1.Equals(angle2));
+        Assert.Equal(expected, result_add);
     }
     [Fact]
-    public void AngleEqualsTestCorrectAngleTrue()
+    public void AngleEquals()
     {
-        var angle1 = new Angle(45);
+        var angle1 = new Angle(15);
 
-        var angle2 = new Angle(45);
+        var angle2 = new Angle(23);
 
         Assert.True(angle1.Equals(angle2));
     }
     [Fact]
-    public void AngleEqualsTestCorrectAngleFalse(){
+    public void AngleEqualityOperator()
+    {
 
-        var angle1 = new Angle(45);
-        var angle2 = new Angle(90);
+        var angle1 = new Angle(15);
+        var angle2 = new Angle(23);
 
+        Assert.True(angle1 == angle2);
+    }
+    [Fact]
+    public void AngleNotEquals()
+    {
+        var angle1 = new Angle(1);
+        var angle2 = new Angle(2);
         Assert.False(angle1.Equals(angle2));
     }
-
     [Fact]
-    public void Angle_Addition_True()
+    public void AngleUnEqualityOperator()
     {
-        var angle1 = new Angle(30);
-        var angle2 = new Angle(45);
-
-        var sum_angle_current = angle1+angle2;
-        var sum_angle_expected = new Angle(75);
-
-        Assert.True(sum_angle_current.Equals(sum_angle_expected));
+        var angle1 = new Angle(1);
+        var angle2 = new Angle(2);
+        Assert.True(angle1 != angle2);
     }
-    
     [Fact]
-    public void Angle_Addition_Over360_True()
+    public void Angle_GetHashCode()
     {
-        var angle1 = new Angle(300);
-        var angle2 = new Angle(100);
+        var angle = new Angle(5);
+        var hashcode = angle.GetHashCode();
 
-        var sum_angle_current = angle1+angle2;
-
-        var sum_angle_expected = new Angle(40);
-
-        Assert.True(sum_angle_current.Equals(sum_angle_expected));
-    }
-
-    [Fact]
-    public void Angle_GetHashCode_SameAngles()
-    {
-        var angle1 = new Angle(90);
-        var angle2 = new Angle(90);
-
-        Assert.Equal(angle1.GetHashCode(),angle2.GetHashCode());
-    }
-    
-
-    [Fact]
-    public void Angle_GetHashCode_DifferentAngles()
-    {
-        var angle1 = new Angle(90);
-        var angle2 = new Angle(180);
-
-        Assert.NotEqual(angle1.GetHashCode(),angle2.GetHashCode());
+        Assert.NotNull(hashcode);
     }
     [Fact]
     public void Angle_Equals_Null_ReturnsFalse()

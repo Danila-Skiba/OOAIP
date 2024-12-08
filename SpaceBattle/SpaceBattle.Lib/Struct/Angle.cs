@@ -1,15 +1,28 @@
 public class Angle
 {
-    public int A { get; set; }
 
-    public Angle(int a)
+    static readonly int d = 8;
+
+    int n;
+
+    public Angle(int n)
     {
-        A = a % 360;
+        this.n = n % d;
     }
 
     public static Angle operator +(Angle u1, Angle u2)
     {
-        return new Angle(u1.A + u2.A);
+        return new Angle((u1.n + u2.n) % d);
+    }
+
+    public static bool operator ==(Angle u1, Angle u2)
+    {
+        return u1.Equals(u2);
+    }
+
+    public static bool operator !=(Angle u1, Angle u2)
+    {
+        return !u1.Equals(u2);
     }
 
     public override bool Equals(object? obj)
@@ -17,14 +30,13 @@ public class Angle
 
         if (obj is Angle angle)
         {
-            return this.A == angle.A;
+            return this.n == angle.n;
         }
-        else{return false;}
+        else { return false; }
     }
 
     public override int GetHashCode()
     {
-            return HashCode.Combine(A);
+        return n.GetHashCode();
     }
-
 }

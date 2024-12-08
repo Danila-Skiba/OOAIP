@@ -24,21 +24,21 @@ public class TestsRotateCommand
     {
         var rotating = new Mock<IRotating>();
 
-        rotating.SetupGet(r => r.CurrentAngle).Throws<Exception>();
+        rotating.SetupGet(r => r.CurrentAngle).Throws<NullReferenceException>();
         rotating.SetupGet(r => r.AngleVelocity).Returns(new Angle(90));
 
-        Assert.Throws<Exception>(() => new Rotate(rotating.Object).Execute());
+        Assert.Throws<NullReferenceException>(() => new Rotate(rotating.Object).Execute());
     }
- 
+
     [Fact]
     public void Rotate_CantReadVelocity()
     {
         var rotating = new Mock<IRotating>();
 
         rotating.SetupGet(r => r.CurrentAngle).Returns(new Angle(45));
-        rotating.SetupGet(r => r.AngleVelocity).Throws<Exception>();
+        rotating.SetupGet(r => r.AngleVelocity).Throws<NullReferenceException>();
 
-        Assert.Throws<Exception>(() => new Rotate(rotating.Object).Execute());
+        Assert.Throws<NullReferenceException>(() => new Rotate(rotating.Object).Execute());
     }
 
     [Fact]
