@@ -24,10 +24,10 @@ public class TestsRotateCommand
     {
         var rotating = new Mock<IRotating>();
 
-        rotating.SetupGet(r => r.CurrentAngle).Throws<NullReferenceException>();
+        rotating.SetupGet(r => r.CurrentAngle).Throws<InvalidOperationException>();
         rotating.SetupGet(r => r.AngleVelocity).Returns(new Angle(90));
 
-        Assert.Throws<NullReferenceException>(() => new Rotate(rotating.Object).Execute());
+        Assert.Throws<InvalidOperationException>(() => new Rotate(rotating.Object).Execute());
     }
 
     [Fact]
@@ -36,9 +36,9 @@ public class TestsRotateCommand
         var rotating = new Mock<IRotating>();
 
         rotating.SetupGet(r => r.CurrentAngle).Returns(new Angle(45));
-        rotating.SetupGet(r => r.AngleVelocity).Throws<NullReferenceException>();
+        rotating.SetupGet(r => r.AngleVelocity).Throws<InvalidOperationException>();
 
-        Assert.Throws<NullReferenceException>(() => new Rotate(rotating.Object).Execute());
+        Assert.Throws<InvalidOperationException>(() => new Rotate(rotating.Object).Execute());
     }
 
     [Fact]
@@ -49,8 +49,8 @@ public class TestsRotateCommand
 
         rotating.SetupGet(r => r.CurrentAngle).Returns(new Angle(45));
         rotating.SetupGet(r => r.AngleVelocity).Returns(new Angle(90));
-        rotating.SetupSet(r => r.CurrentAngle = new Angle(135)).Throws<Exception>();
+        rotating.SetupSet(r => r.CurrentAngle = new Angle(135)).Throws<InvalidOperationException>();
 
-        Assert.Throws<Exception>(() => new Rotate(rotating.Object).Execute());
+        Assert.Throws<InvalidOperationException>(() => new Rotate(rotating.Object).Execute());
     }
 }
