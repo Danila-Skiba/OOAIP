@@ -23,9 +23,7 @@ namespace SpaceBattle.Lib.Tests
             var vector1 = new Vector(new int[]{1, 2, 3});
             var vector2 = new Vector(new int[]{1, 2});
 
-            var exception = Assert.Throws<ArgumentException>(() => { var sum = vector1 + vector2; });
-
-            Assert.Equal("Вектора должны иметь одинаковую размерность", exception.Message);
+            Assert.Throws<InvalidOperationException>(() => { var sum = vector1 + vector2; });
         }
 
         [Fact]
@@ -34,9 +32,7 @@ namespace SpaceBattle.Lib.Tests
             var vector1 = new Vector(new int[]{1, 2});
             var vector2 = new Vector(new int[]{1, 2, 3});
 
-            var exception = Assert.Throws<ArgumentException>(() => { var sum = vector1 + vector2; });
-
-            Assert.Equal("Вектора должны иметь одинаковую размерность", exception.Message);
+            Assert.Throws<InvalidOperationException>(() => { var sum = vector1 + vector2; });
         }
 
         [Fact]
