@@ -37,7 +37,7 @@ public class Vector
     {
         if (vector1.coordinates.Length != vector2.coordinates.Length)
         {
-            throw new ArgumentException("Вектора должны иметь одинаковую размерность");
+            throw new InvalidOperationException();
         }
 
         int[] result = new int[vector1.coordinates.Length];
