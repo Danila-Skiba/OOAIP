@@ -1,5 +1,4 @@
-namespace SpaceBattle.Lib;
-using SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 public class Vector
 {
     private readonly int[] coordinates;
@@ -16,16 +15,7 @@ public class Vector
 
     public override bool Equals(object? obj)
     {
-
-        if (obj is Vector vector && vector.coordinates.Length == this.coordinates.Length) 
-        {
-            for (int i = 0; i < coordinates.Length; i++)
-            {
-                if (this.coordinates[i] != vector.coordinates[i]) return false;
-            }
-            return true;
-        }
-        return false;
+        return obj is Vector vector && coordinates.SequenceEqual(vector.coordinates);
     }
 
     public override int GetHashCode()
@@ -40,13 +30,7 @@ public class Vector
             throw new InvalidOperationException();
         }
 
-        int[] result = new int[vector1.coordinates.Length];
-        for (int i = 0; i < result.Length; i++)
-        {
-            result[i] = vector1.coordinates[i] + vector2.coordinates[i];
-        }
-
-        return new Vector(result);
+        return new Vector(vector1.coordinates.Zip(vector2.coordinates, (v1, v2) => v1 + v2).ToArray());
     }
 
     public static bool operator ==(Vector vector1, Vector vector2)
