@@ -1,9 +1,7 @@
-public class Angle
+﻿public class Angle
 {
-
-    static readonly int d = 8;
-
-    int n;
+    private static readonly int d = 8;
+    private readonly int n;
 
     public Angle(int n)
     {
@@ -46,9 +44,12 @@ public class Angle
 
         if (obj is Angle angle)
         {
-            return this.n == angle.n;
+            return n == angle.n;
         }
-        else { return false; }
+        else
+        {
+            return false;
+        }
     }
 
     public override int GetHashCode()

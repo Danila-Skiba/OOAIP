@@ -1,11 +1,10 @@
-using Moq;
-using SpaceBattle.Lib;
+﻿using Moq;
 namespace SpaceBattle.Lib.Tests;
 
 public class TestsRotateCommand
 {
     [Fact]
-    public void RotateTest()
+    public static void RotateTest()
     {
         var rotating = new Mock<IRotating>();
 

@@ -1,6 +1,4 @@
-using Moq;
-using SpaceBattle.Lib;
-namespace SpaceBattle.Lib.Tests;
+﻿namespace SpaceBattle.Lib.Tests;
 
 public class TestsAngle
 {
@@ -9,7 +7,7 @@ public class TestsAngle
     {
         var angle1 = new Angle(5);
         var angle2 = new Angle(7);
-        Angle result_add = angle1 + angle2;
+        var result_add = angle1 + angle2;
         var expected = new Angle(4);
 
         Assert.Equal(expected, result_add);
@@ -65,7 +63,7 @@ public class TestsAngle
     {
         var angle = new Angle(0);
 
-        double sin = angle.Sin();
+        var sin = angle.Sin();
 
         Assert.Equal(0.0, sin);
     }
@@ -74,7 +72,7 @@ public class TestsAngle
     {
         var angle = new Angle(0);
 
-        double cos = angle.Cos();
+        var cos = angle.Cos();
 
         Assert.Equal(1.0, cos);
     }
