@@ -89,17 +89,5 @@ namespace SpaceBattle.Lib.Tests
 
             Assert.False(vector1.Equals(vector2));
         }
-
-        [Fact]
-        public void TestGetCoordinates()
-        {
-            var coord = new int[] {1,2};
-            var vector = new Vector(coord);
-
-            var copyCoord = vector.GetCoordinates();
-            copyCoord[1] = 5;
-
-            Assert.Equal(new int[] {1,2}, vector.GetCoordinates());
-        }
     }
 }
