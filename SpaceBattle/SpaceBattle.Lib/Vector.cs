@@ -8,11 +8,6 @@ public class Vector
         coordinates = coord;
     }
 
-    public int[] GetCoordinates()
-    {
-        return (int[])coordinates.Clone();
-    }
-
     public override bool Equals(object? obj)
     {
         return obj is Vector vector && coordinates.SequenceEqual(vector.coordinates);
