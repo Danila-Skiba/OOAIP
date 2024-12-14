@@ -1,4 +1,4 @@
-using App;
+﻿using App;
 
 namespace SpaceBattle.Lib.Commands
 {
@@ -18,9 +18,10 @@ namespace SpaceBattle.Lib.Commands
                         return new MacroCommand(Array.Empty<ICommand>());
                     }
 
-                    var commands = args[0] as ICommand[];
-                    if (commands == null)
+                    if (args[0] is not ICommand[] commands)
+                    {
                         throw new ArgumentException("Invalid arguments for Commands.Macro");
+                    }
 
                     return new MacroCommand(commands);
                 }

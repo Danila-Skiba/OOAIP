@@ -1,6 +1,5 @@
+﻿using App;
 using Moq;
-using App.Scopes;
-using App;
 using SpaceBattle.Lib.Commands;
 
 namespace SpaceBattle.Lib.Tests.CommandTests
@@ -64,7 +63,7 @@ namespace SpaceBattle.Lib.Tests.CommandTests
         {
             //Arrange
             var registerCommand = new RegisterIoCDependencyMacroCommand();
-            object[] args = new object[] { null };
+            var args = new object[] { null };
 
             //Act
             registerCommand.Execute();
@@ -81,7 +80,7 @@ namespace SpaceBattle.Lib.Tests.CommandTests
         {
             //Arrange
             var registerCommand = new RegisterIoCDependencyMacroCommand();
-            object[] args = new object[] { "InvalidArgument" };
+            var args = new object[] { "InvalidArgument" };
 
             //Act
             registerCommand.Execute();

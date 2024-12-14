@@ -1,10 +1,8 @@
-using App;
-
-namespace SpaceBattle.Lib.Commands
+﻿namespace SpaceBattle.Lib.Commands
 {
     public class MacroCommand : ICommand
     {
-        private ICommand[] commands;
+        private readonly ICommand[] commands;
 
         public MacroCommand(ICommand[] commands)
         {
@@ -17,7 +15,11 @@ namespace SpaceBattle.Lib.Commands
 
         private void ExecuteRecursive(int index)
         {
-            if (index >= commands.Length) return;
+            if (index >= commands.Length)
+            {
+                return;
+            }
+
             commands[index].Execute();
             ExecuteRecursive(index + 1);
         }
