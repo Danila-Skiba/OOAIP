@@ -1,5 +1,4 @@
-﻿using Moq;
-using Xunit;
+using Moq;
 namespace SpaceBattle.Lib.Tests
 {
     public class MoveTest
