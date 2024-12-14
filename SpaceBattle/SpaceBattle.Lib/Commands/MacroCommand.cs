@@ -1,11 +1,10 @@
 using App;
-using System;
 
 namespace SpaceBattle.Lib.Commands
 {
     public class MacroCommand : ICommand
     {
-        private readonly ICommand[] commands;
+        private ICommand[] commands;
 
         public MacroCommand(ICommand[] commands)
         {

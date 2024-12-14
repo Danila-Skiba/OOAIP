@@ -1,6 +1,5 @@
-using Xunit;
 using Moq;
-using System;
+using App.Scopes;
 using App;
 using SpaceBattle.Lib.Commands;
 
@@ -10,7 +9,7 @@ namespace SpaceBattle.Lib.Tests.CommandTests
     {
         public RegisterIoCDependencyMacroCommandTests()
         {
-            // Инициализируем IoC
+            //инициализируем IoC
             new App.Scopes.InitCommand().Execute();
             var newScope = Ioc.Resolve<System.Collections.Generic.IDictionary<string, Func<object[], object>>>("IoC.Scope.Create");
             Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Set", newScope).Execute();
@@ -19,45 +18,42 @@ namespace SpaceBattle.Lib.Tests.CommandTests
         [Fact]
         public void Execute_Should_Register_CommandsMacro_Dependency_WithNoArgs()
         {
-            // Arrange
+            //Arrange
             var registerCommand = new RegisterIoCDependencyMacroCommand();
 
-            // Act
+            //Act
             registerCommand.Execute();
 
-            // Assert
+            //Assert
             var resolvedCommand = Ioc.Resolve<ICommand>("Commands.Macro");
             Assert.NotNull(resolvedCommand);
             Assert.IsType<MacroCommand>(resolvedCommand);
 
             var macroCommand = resolvedCommand as MacroCommand;
             Assert.NotNull(macroCommand);
-            // Предполагается, что MacroCommand имеет публичное свойство Commands
-            // Если нет, этот шаг можно пропустить или использовать рефлексию
-            // Assert.Empty(macroCommand.Commands);
         }
 
         [Fact]
         public void Execute_Should_Register_CommandsMacro_Dependency_WithCommands()
         {
-            // Arrange
+            //Arrange
             var registerCommand = new RegisterIoCDependencyMacroCommand();
             var cmd1 = new Mock<ICommand>();
             var cmd2 = new Mock<ICommand>();
             var commands = new ICommand[] { cmd1.Object, cmd2.Object };
 
-            // Act
+            //Act
             registerCommand.Execute();
             var resolvedCommand = Ioc.Resolve<ICommand>("Commands.Macro", (object)commands);
 
-            // Assert
+            //Assert
             Assert.NotNull(resolvedCommand);
             Assert.IsType<MacroCommand>(resolvedCommand);
 
             var macroCommand = resolvedCommand as MacroCommand;
             Assert.NotNull(macroCommand);
 
-            // Выполняем макрокоманду и проверяем, что команды выполняются
+            //провка макрокоманда выполняются
             macroCommand.Execute();
             cmd1.Verify(c => c.Execute(), Times.Once());
             cmd2.Verify(c => c.Execute(), Times.Once());
@@ -66,14 +62,14 @@ namespace SpaceBattle.Lib.Tests.CommandTests
         [Fact]
         public void Execute_Should_ThrowException_When_Args0_IsNull()
         {
-            // Arrange
+            //Arrange
             var registerCommand = new RegisterIoCDependencyMacroCommand();
             object[] args = new object[] { null };
 
-            // Act
+            //Act
             registerCommand.Execute();
 
-            // Assert
+            //Assert
             var exception = Assert.Throws<ArgumentException>(() =>
                 Ioc.Resolve<ICommand>("Commands.Macro", args)
             );
@@ -83,14 +79,14 @@ namespace SpaceBattle.Lib.Tests.CommandTests
         [Fact]
         public void Execute_Should_ThrowException_When_Args0_IsInvalidType()
         {
-            // Arrange
+            //Arrange
             var registerCommand = new RegisterIoCDependencyMacroCommand();
             object[] args = new object[] { "InvalidArgument" };
 
-            // Act
+            //Act
             registerCommand.Execute();
 
-            // Assert
+            //Assert
             var exception = Assert.Throws<ArgumentException>(() =>
                 Ioc.Resolve<ICommand>("Commands.Macro", args)
             );
