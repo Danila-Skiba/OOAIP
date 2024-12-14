@@ -1,4 +1,6 @@
-﻿namespace SpaceBattle.Lib.Tests
+using Xunit;
+
+namespace SpaceBattle.Lib.Tests
 {
     public class VectorTests
     {
