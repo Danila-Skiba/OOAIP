@@ -5,5 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+  <ItemGroup>
+  <Reference Include="core.dll" HintPath="..\Common\core.dll" />
+  <Reference Include="scopes.dll" HintPath="..\Common\scopes.dll" />
+  </ItemGroup>
 </Project>
