@@ -4,7 +4,7 @@ using Moq;
 
 namespace SpaceBattle.Lib.Tests
 {
-    public class RegisterIoCDependencyMoveCommandTests
+    public class RegisterIoCDependencyMoveCommandTests : IDisposable
     {
         public RegisterIoCDependencyMoveCommandTests()
         {
@@ -32,6 +32,18 @@ namespace SpaceBattle.Lib.Tests
 
             Assert.NotNull(resolvedCommand);
             Assert.IsType<MoveCommand>(resolvedCommand);
+        }
+
+        [Fact]
+        public void Execute_NotShouldRegisterMoveCommandDependency()
+        {
+            var movingMock = new Mock<object>();
+
+            Assert.ThrowsAny<Exception>(() => Ioc.Resolve<ICommand>("Commands.Move", movingMock));
+        }
+        public void Dispose()
+        {
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
         }
     }
 }
