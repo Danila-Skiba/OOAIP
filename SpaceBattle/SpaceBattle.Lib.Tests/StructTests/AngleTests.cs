@@ -48,9 +48,7 @@ public class TestsAngle
     public void Angle_GetHashCode()
     {
         var angle = new Angle(5);
-        var hashcode = angle.GetHashCode();
-
-        Assert.NotNull(hashcode);
+        _ = angle.GetHashCode();
     }
     [Fact]
     public void Angle_Equals_Null_ReturnsFalse()
@@ -77,3 +75,7 @@ public class TestsAngle
         Assert.Equal(1.0, cos);
     }
 }
+
+//чтобы было следующий скоуп создавался, после каждого теста очищаить 
+
+//в dispose()
