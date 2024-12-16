@@ -4,7 +4,7 @@ using Moq;
 
 namespace SpaceBattle.Lib.Tests
 {
-    public class RegisterIoCDependencyRotateCommandTests
+    public class RegisterIoCDependencyRotateCommandTests : IDisposable
     {
 
         public RegisterIoCDependencyRotateCommandTests()
@@ -35,6 +35,19 @@ namespace SpaceBattle.Lib.Tests
             var resolvedCommand = Ioc.Resolve<ICommand>("Commands.Rotate", mockGameObject.Object);
             Assert.NotNull(resolvedCommand);
             Assert.IsType<Rotate>(resolvedCommand);
+        }
+
+        [Fact]
+        public void Execute_ShouldNotFindRotateCommandDependencyInNewScope()
+        {
+            var rotatingMock = new Mock<IRotating>();
+            // Act & Assert
+            Assert.Throws<Exception>(() => Ioc.Resolve<ICommand>("Commands.Rotate", rotatingMock.Object));
+        }
+
+        public void Dispose()
+        {
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
         }
     }
 }

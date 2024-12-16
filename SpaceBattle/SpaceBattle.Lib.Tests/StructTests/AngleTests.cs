@@ -75,3 +75,8 @@ public class TestsAngle
         Assert.Equal(1.0, cos);
     }
 }
+
+
+//чтобы было следующий скоуп создавался, после каждого теста очищаить 
+
+//в dispose()
