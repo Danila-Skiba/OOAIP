@@ -17,11 +17,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="6.0.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <ProjectReference Include="..\SpaceBattle.Lib\SpaceBattle.Lib.csproj" />
-  </ItemGroup>
 
+    <Reference Include="core">
+      <HintPath>..\Common\core.dll</HintPath>
+    </Reference>
+    <Reference Include="scopes">
+      <HintPath>..\Common\scopes.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
