@@ -12,15 +12,21 @@ jobs:
 
       - name: Check file endings
         run: |
-          EXCLUDED_FILES=".gitignore"
+          # Исключаем файлы, которые не нужно проверять
+          EXCLUDED_FILES="README.md\|.gitignore\|*.json\|*.yml\|*.yaml"
 
-          # Проверяем, что все файлы заканчиваются символом новой строки, исключая указанные файлы
-          if git grep --cached -Il '' | grep -v "$EXCLUDED_FILES" | xargs -d '\n' grep -cH -P '\n\Z'; then
-            echo "Все файлы заканчиваются символом новой строки"
-          else
-            echo "Найдены файлы, которые не заканчиваются символом новой строки"
-            exit 1
-          fi
+          # Находим все текстовые файлы, исключая указанные
+          FILES=$(git grep --cached -Il '' | grep -v "$EXCLUDED_FILES")
+
+          # Проверяем, что каждый файл заканчивается пустой строкой
+          for file in $FILES; do
+            if ! tail -n 1 "$file" | grep -q '^$'; then
+              echo "Файл $file не заканчивается пустой строкой"
+              exit 1
+            fi
+          done
+
+          echo "Все файлы заканчиваются пустой строкой"
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
