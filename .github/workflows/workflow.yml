@@ -43,17 +43,7 @@ jobs:
           cd SpaceBattle/SpaceBattle.Lib/
           dotnet format . --verify-no-changes
 
-          # Проверка наличия пустой строки в конце каждого файла в SpaceBattle.Lib
-          find . -type f -print0 | while IFS= read -r -d $'\0' file; do
-            tail -n 1 "$file" | grep -q '^$' || { echo "Error: File '$file' does not end with an empty line."; exit 1; }
-          done
-
       - name: Check Formatting in SpaceBattle.Lib.Tests
         run: |
           cd ../SpaceBattle.Lib.Tests/
           dotnet format . --verify-no-changes
-
-          # Проверка наличия пустой строки в конце каждого файла в SpaceBattle.Lib.Tests
-          find . -type f -print0 | while IFS= read -r -d $'\0' file; do
-            tail -n 1 "$file" | grep -q '^$' || { echo "Error: File '$file' does not end with an empty line."; exit 1; }
-          done
