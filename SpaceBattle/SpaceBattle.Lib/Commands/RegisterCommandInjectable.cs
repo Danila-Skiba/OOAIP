@@ -1,4 +1,3 @@
-using SpaceBattle;
 using App;
 
 namespace SpaceBattle.Lib

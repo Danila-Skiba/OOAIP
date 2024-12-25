@@ -4,9 +4,9 @@ using Moq;
 
 namespace SpaceBattle.Lib.Tests
 {
-    public class RegisterDependencyCommandInjectableCommandTests : IDisposable
+    public class RegisterDependencyCommandInjectableCommandTests2 : IDisposable
     {
-        public RegisterDependencyCommandInjectableCommandTests()
+        public RegisterDependencyCommandInjectableCommandTests2()
         {
             new InitCommand().Execute();
             var iocScope = Ioc.Resolve<object>("IoC.Scope.Create");
