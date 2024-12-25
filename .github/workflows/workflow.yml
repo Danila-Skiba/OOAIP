@@ -2,19 +2,32 @@ name: CI
 
 on:
   pull_request:
-    branches: ['main']
+    branches: ["main"]
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-      
+
+      - name: Install dotnet-format
+        run: dotnet tool install --global dotnet-format
+
+      - name: Check Formatting in SpaceBattle.Lib
+        run: |
+          cd SpaceBattle/SpaceBattle.Lib/
+          dotnet format . --verify-no-changes
+
+      - name: Check Formatting in SpaceBattle.Lib.Tests
+        run: |
+          cd SpaceBattle/SpaceBattle.Lib.Tests/
+          dotnet format . --verify-no-changes
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 8.0.x
- 
+
       - name: Restore dependencies
         run: dotnet restore SpaceBattle/SpaceBattle.Lib.Tests
 
