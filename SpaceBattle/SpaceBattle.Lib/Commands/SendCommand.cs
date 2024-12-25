@@ -1,9 +1,9 @@
-namespace SpaceBattle.Lib
+﻿namespace SpaceBattle.Lib
 {
     public class SendCommand : ICommand
     {
-        ICommand _repeatecommand;
-        ISender _sender;
+        private readonly ICommand _repeatecommand;
+        private readonly ISender _sender;
 
         public SendCommand(ICommand cmd, ISender sender)
         {
