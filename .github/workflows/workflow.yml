@@ -13,7 +13,7 @@ jobs:
       - name: Check file endings
         run: |
           # Исключаем файлы, которые не нужно проверять
-          EXCLUDED_FILES="README.md\|.gitignore\|*.json\|*.yml\|*.yaml"
+          EXCLUDED_FILES="README.md\|.gitignore\|.editorconfig\|*.json\|*.yml\|*.yaml"
 
           # Находим все текстовые файлы, исключая указанные
           FILES=$(git grep --cached -Il '' | grep -v "$EXCLUDED_FILES")
