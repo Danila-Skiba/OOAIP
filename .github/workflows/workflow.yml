@@ -12,12 +12,15 @@ jobs:
 
       - name: Check file endings
         run: |
+          # Исключаем файлы, которые не нужно проверять
           EXCLUDED_FILES="README.md\|.gitignore\|*.json\|*.yml\|*.yaml\|.github/workflows/workflow.yml\|.editorconfig"
 
+          # Находим все текстовые файлы, исключая указанные
           FILES=$(git grep --cached -Il '' | grep -v "$EXCLUDED_FILES")
 
+          # Проверяем, что каждый файл заканчивается пустой строкой
           for file in $FILES; do
-            if ! tail -n 1 "$file" | grep -q '^$'; then
+            if ! tail -n 1 "$file" | cat -e | grep -q '^\$$'; then
               echo "Файл $file не заканчивается пустой строкой"
               exit 1
             fi
