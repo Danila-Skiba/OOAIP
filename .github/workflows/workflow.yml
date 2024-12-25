@@ -45,5 +45,5 @@ jobs:
 
       - name: Check Formatting in SpaceBattle.Lib.Tests
         run: |
-          cd ../SpaceBattle.Lib.Tests/
+          cd SpaceBattle/SpaceBattle.Lib.Tests/
           dotnet format . --verify-no-changes
