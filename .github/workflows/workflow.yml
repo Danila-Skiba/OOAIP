@@ -12,7 +12,7 @@ jobs:
 
       - name: Check file endings
         run: |
-          EXCLUDED_FILES=".gitignore\"
+          EXCLUDED_FILES=".gitignore"
 
           # Проверяем, что все файлы заканчиваются символом новой строки, исключая указанные файлы
           if git grep --cached -Il '' | grep -v "$EXCLUDED_FILES" | xargs -d '\n' grep -cH -P '\n\Z'; then
