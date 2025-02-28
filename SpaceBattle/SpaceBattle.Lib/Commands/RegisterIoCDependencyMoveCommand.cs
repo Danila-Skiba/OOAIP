@@ -11,3 +11,5 @@ namespace SpaceBattle.Lib
         }
     }
 }
+
+//тут хз
