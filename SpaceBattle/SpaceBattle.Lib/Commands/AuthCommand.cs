@@ -25,16 +25,11 @@ namespace SpaceBattle.Lib
             if (!playerObjects.Contains(_objectId))
                 throw new UnauthorizedAccessException($"Player {_playerId} does not own object {_objectId}.");
 
-            // Получаем права (разрешенные операции) для этого объекта
             var playerPermissions = Ioc.Resolve<Dictionary<string, List<string>>>("Players.GetPermissions", _playerId);
-
-            // Проверяем, что у игрока есть право на выполнение операции над этим объектом
             if (!playerPermissions.TryGetValue(_objectId, out var permissions) || !permissions.Contains(_operation))
             {
                 throw new UnauthorizedAccessException($"Player {_playerId} is not authorized to perform operation '{_operation}' on object {_objectId}.");
             }
-
-            // Если проверки прошли успешно, авторизация завершена
         }
     }
 }

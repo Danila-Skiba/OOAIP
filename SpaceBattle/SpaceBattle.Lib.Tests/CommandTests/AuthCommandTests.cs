@@ -49,7 +49,7 @@ namespace SpaceBattle.Lib.Tests
             var exception = Record.Exception(() => authCommand.Execute());
 
             // Assert
-            Assert.Null(exception); // Ожидаем, что исключение не будет выброшено
+            Assert.Null(exception);
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace SpaceBattle.Lib.Tests
             var objectId = "ship1";
             var operation = "Fire";
 
-            var playerObjects = new List<string> { "ship2" }; // Игрок не владеет ship1
+            var playerObjects = new List<string> { "ship2" }; 
             var playerPermissions = new Dictionary<string, List<string>>
             {
                 { objectId, new List<string> { operation } }
@@ -97,7 +97,7 @@ namespace SpaceBattle.Lib.Tests
             var playerObjects = new List<string> { objectId };
             var playerPermissions = new Dictionary<string, List<string>>
             {
-                { objectId, new List<string> { "Move" } } // Нет права на "Fire"
+                { objectId, new List<string> { "Move" } }
             };
 
             // Регистрируем зависимости в IoC
