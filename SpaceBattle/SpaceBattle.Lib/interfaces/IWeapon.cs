@@ -1,6 +1,6 @@
 namespace SpaceBattle.Lib
 {
-    interface IWeapon: IMoving
+    public interface IWeapon: IMoving
     {
         
     }

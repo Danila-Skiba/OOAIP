@@ -1,0 +1,69 @@
+using SpaceBattle.Lib;
+﻿using App;
+using App.Scopes;
+using Moq;
+
+namespace SpaceBattle.Lib.Tests
+{
+    public class FireCommandTests: IDisposable
+    {
+        public FireCommandTests()
+        {
+            new InitCommand().Execute();
+            var iocScope = Ioc.Resolve<object>("IoC.Scope.Create");
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Set", iocScope).Execute();
+        }
+
+        [Fact]
+        public void Execute_ShouldRegisterFireCommandDependency()
+        {
+            var fireableMock = new Mock<IFireable>();
+            var position = new Vector(new[] { 0, 0});
+            var fireDirection = new Vector(new[] { 2, 1});
+            fireableMock.Setup(f => f.Position).Returns(position);
+            fireableMock.Setup(f => f.FireDirection).Returns(fireDirection);
+
+            var weaponMock = new Mock<IWeapon>();
+            weaponMock.Setup(w => w.Position).Returns(position);
+            weaponMock.Setup(w => w.Velocity).Returns(fireDirection);
+
+            var addCommandMock = new Mock<ICommand>();
+            var weaponId = Guid.NewGuid().ToString();
+            //new RegisterIocDependencyGameRepository().Execute();
+
+            Ioc.Resolve<App.ICommand>("IoC.Register", "Weapon.Create", (object[] args) => {
+                return weaponMock.Object;
+            }).Execute();
+
+            Ioc.Resolve<App.ICommand>("IoC.Register", "Adapters.IFireableObject", (object[] args) => {
+                return fireableMock.Object;
+            });
+
+            Ioc.Resolve<App.ICommand>("IoC.Register", "Game.Item.Add", (object[] args) =>
+            {
+                return addCommandMock.Object;
+            });
+
+            //new RegisterIocDependencyGameRepository().Execute();
+            new RegisterFireDependencies().Execute();
+
+            var fireCommand = Ioc.Resolve<ICommand>("Commands.Fire", fireableMock.Object, weaponMock.Object, weaponId, addCommandMock.Object);
+            fireCommand.Execute();
+
+            Assert.IsType<FireCommand>(fireCommand);
+            addCommandMock.Verify(c => c.Execute(), Times.Once());
+        }
+
+        [Fact]
+        public void Execute_NotShouldRegisterFireCommandDependency()
+        {
+            var fireableMock = new Mock<IFireable>();
+            Assert.ThrowsAny<Exception>(() => Ioc.Resolve<ICommand>("Commands.Fire", fireableMock.Object));
+        }
+
+        public void Dispose()
+        {
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+        }
+    }
+}

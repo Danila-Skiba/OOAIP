@@ -5,9 +5,10 @@ namespace SpaceBattle.Lib
     {
         public void Execute()
         {
-            Ioc.Resolve<App.ICommand>("IoC.Register", "Commands.Fire", (object[] args) => new FireCommand(
-                Ioc.Resolve<IFireable>("Adapters.IFireableObject", args[0])
-            )).Execute();
+            Ioc.Resolve<App.ICommand>("IoC.Register", "Commands.Fire", (object[] args) => 
+            {
+                return new FireCommand((IFireable)args[0], (IWeapon)args[1], (string)args[2], (ICommand)args[3]);
+            }).Execute();
         }
     }
 }

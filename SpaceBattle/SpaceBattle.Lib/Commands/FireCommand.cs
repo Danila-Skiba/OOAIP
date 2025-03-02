@@ -5,17 +5,21 @@ namespace SpaceBattle.Lib
     public class FireCommand: ICommand
     {
         private readonly IFireable _shooter;
+        private readonly IWeapon _weapon;
+        private readonly string _weaponId;
+        private readonly ICommand _addCommand;
 
-        public FireCommand(IFireable shooter)
+        public FireCommand(IFireable shooter, IWeapon weapon, string weaponId, ICommand addCommand)
         {
             _shooter = shooter;
+            _weapon = weapon;
+            _weaponId = weaponId;
+            _addCommand = addCommand;
         }
 
         public void Execute()
         {
-            var weapon = Ioc.Resolve<IWeapon>("Weapon.Create", _shooter.Position, _shooter.FireDirection);
-            var weaponId = Guid.NewGuid().ToString();
-            Ioc.Resolve<App.ICommand>("Game.Item.Add", weaponId, weapon).Execute();
+            _addCommand.Execute();
         }
     }
 }
