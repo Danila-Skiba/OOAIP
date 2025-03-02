@@ -13,7 +13,7 @@ namespace SpaceBattle.Lib
                 (object[] args) =>
                 {
                     var key = (string)args[0];
-                    return gameItems[(string)args[0]];
+                    return gameItems[key];
                 }
             ).Execute();
 

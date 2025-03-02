@@ -1,11 +1,12 @@
-using SpaceBattle.Lib;
 ﻿using App;
 using App.Scopes;
 using Moq;
+using SpaceBattle.Lib;
+using Xunit;
 
 namespace SpaceBattle.Lib.Tests
 {
-    public class FireCommandTests: IDisposable
+    public class FireCommandTests : IDisposable
     {
         public FireCommandTests()
         {
@@ -18,8 +19,8 @@ namespace SpaceBattle.Lib.Tests
         public void Execute_ShouldRegisterFireCommandDependency()
         {
             var fireableMock = new Mock<IFireable>();
-            var position = new Vector(new[] { 0, 0});
-            var fireDirection = new Vector(new[] { 2, 1});
+            var position = new Vector(new[] { 0, 0 });
+            var fireDirection = new Vector(new[] { 2, 1 });
             fireableMock.Setup(f => f.Position).Returns(position);
             fireableMock.Setup(f => f.FireDirection).Returns(fireDirection);
 
@@ -27,34 +28,34 @@ namespace SpaceBattle.Lib.Tests
             weaponMock.Setup(w => w.Position).Returns(position);
             weaponMock.Setup(w => w.Velocity).Returns(fireDirection);
 
-            var addCommandMock = new Mock<ICommand>();
-
-            Ioc.Resolve<App.ICommand>("IoC.Register", "Weapon.Create", (object[] args) => {
+            Ioc.Resolve<App.ICommand>("IoC.Register", "Weapon.Create", (object[] args) =>
+            {
                 return weaponMock.Object;
             }).Execute();
 
-            Ioc.Resolve<App.ICommand>("IoC.Register", "Adapters.IFireableObject", (object[] args) => {
+            Ioc.Resolve<App.ICommand>("IoC.Register", "Adapters.IFireableObject", (object[] args) =>
+            {
                 return fireableMock.Object;
             }).Execute();
 
-            Ioc.Resolve<App.ICommand>("IoC.Register", "Game.Item.Add", (object[] args) =>
-            {
-                return addCommandMock.Object;
-            }).Execute();
+            new RegisterIocDependencyGameRepository().Execute();
 
             new RegisterFireDependencies().Execute();
 
-            var fireCommand = Ioc.Resolve<ICommand>("Commands.Fire", fireableMock.Object, weaponMock.Object);
+            var fireCommand = Ioc.Resolve<ICommand>("Commands.Fire", fireableMock.Object);
             fireCommand.Execute();
 
             Assert.IsType<FireCommand>(fireCommand);
-            addCommandMock.Verify(c => c.Execute(), Times.Once());
+            var weaponId = ((FireCommand)fireCommand).GetLastWeaponId();
+            var addedItem = Ioc.Resolve<object>("Game.Item.Get", weaponId);
+            Assert.Equal(weaponMock.Object, addedItem);
         }
 
         [Fact]
         public void Execute_NotShouldRegisterFireCommandDependency()
         {
             var fireableMock = new Mock<IFireable>();
+
             Assert.ThrowsAny<Exception>(() => Ioc.Resolve<ICommand>("Commands.Fire", fireableMock.Object));
         }
 
