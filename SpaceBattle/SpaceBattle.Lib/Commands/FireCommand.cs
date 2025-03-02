@@ -6,20 +6,17 @@ namespace SpaceBattle.Lib
     {
         private readonly IFireable _shooter;
         private readonly IWeapon _weapon;
-        private readonly string _weaponId;
-        private readonly ICommand _addCommand;
 
-        public FireCommand(IFireable shooter, IWeapon weapon, string weaponId, ICommand addCommand)
+        public FireCommand(IFireable shooter, IWeapon _weapon)
         {
             _shooter = shooter;
-            _weapon = weapon;
-            _weaponId = weaponId;
-            _addCommand = addCommand;
+            _weapon = _weapon;
         }
 
         public void Execute()
         {
-            _addCommand.Execute();
+            var weaponId = Guid.NewGuid().ToString();
+            Ioc.Resolve<ICommand>("Game.Item.Add", weaponId, _weapon).Execute();
         }
     }
 }

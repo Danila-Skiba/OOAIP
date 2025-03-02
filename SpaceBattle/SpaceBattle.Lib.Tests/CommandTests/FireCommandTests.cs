@@ -28,8 +28,6 @@ namespace SpaceBattle.Lib.Tests
             weaponMock.Setup(w => w.Velocity).Returns(fireDirection);
 
             var addCommandMock = new Mock<ICommand>();
-            var weaponId = Guid.NewGuid().ToString();
-            //new RegisterIocDependencyGameRepository().Execute();
 
             Ioc.Resolve<App.ICommand>("IoC.Register", "Weapon.Create", (object[] args) => {
                 return weaponMock.Object;
@@ -37,17 +35,16 @@ namespace SpaceBattle.Lib.Tests
 
             Ioc.Resolve<App.ICommand>("IoC.Register", "Adapters.IFireableObject", (object[] args) => {
                 return fireableMock.Object;
-            });
+            }).Execute();
 
             Ioc.Resolve<App.ICommand>("IoC.Register", "Game.Item.Add", (object[] args) =>
             {
                 return addCommandMock.Object;
-            });
+            }).Execute();
 
-            //new RegisterIocDependencyGameRepository().Execute();
             new RegisterFireDependencies().Execute();
 
-            var fireCommand = Ioc.Resolve<ICommand>("Commands.Fire", fireableMock.Object, weaponMock.Object, weaponId, addCommandMock.Object);
+            var fireCommand = Ioc.Resolve<ICommand>("Commands.Fire", fireableMock.Object, weaponMock.Object);
             fireCommand.Execute();
 
             Assert.IsType<FireCommand>(fireCommand);

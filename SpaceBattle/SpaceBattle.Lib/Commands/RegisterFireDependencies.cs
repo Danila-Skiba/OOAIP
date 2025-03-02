@@ -7,7 +7,9 @@ namespace SpaceBattle.Lib
         {
             Ioc.Resolve<App.ICommand>("IoC.Register", "Commands.Fire", (object[] args) => 
             {
-                return new FireCommand((IFireable)args[0], (IWeapon)args[1], (string)args[2], (ICommand)args[3]);
+                var shooter = Ioc.Resolve<IFireable>("Adapters.IFireableObject", args[0]);
+                var weapon = Ioc.Resolve<IWeapon>("Weapon.Create", shooter.Position, shooter.FireDirection);
+                return new FireCommand(shooter, weapon);
             }).Execute();
         }
     }
