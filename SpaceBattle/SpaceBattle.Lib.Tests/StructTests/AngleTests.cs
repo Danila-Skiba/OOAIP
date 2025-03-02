@@ -49,8 +49,6 @@ public class TestsAngle
     {
         var angle = new Angle(5);
         var hashcode = angle.GetHashCode();
-
-        Assert.NotNull(hashcode);
     }
     [Fact]
     public void Angle_Equals_Null_ReturnsFalse()
