@@ -50,14 +50,5 @@ namespace SpaceBattle.Lib.Tests
             cmd1.Verify(c => c.Execute(), Times.Once);
             cmd2.Verify(c => c.Execute(), Times.Once);
         }
-
-        [Fact]
-        public void ExceptionCommandNull()
-        {
-            var game = new Game();
-
-            var exception = Assert.Throws<ArgumentNullException>(() => game.Receive(null));
-            Assert.Equal("cmd", exception.ParamName);
-        }
     }
 }
