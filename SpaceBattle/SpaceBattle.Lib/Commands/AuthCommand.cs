@@ -17,19 +17,13 @@ namespace SpaceBattle.Lib
 
         public void Execute()
         {
-            // Получаем объекты игрока через репозиторий
             var playerObjects = (List<string>)Ioc.Resolve<object>("Game.Item.Get", $"{_playerId}_objects") ?? new List<string>();
-            if (!playerObjects.Contains(_objectId))
-            {
-                throw new UnauthorizedAccessException($"Player {_playerId} does not own object {_objectId}.");
-            }
+            _ = playerObjects.Contains(_objectId)
+                ? true : throw new UnauthorizedAccessException($"Player {_playerId} does not own object {_objectId}.");
 
-            // Получаем права объекта через репозиторий
             var objectPermissions = (List<string>)Ioc.Resolve<object>("Game.Item.Get", $"{_objectId}_permissions") ?? new List<string>();
-            if (!objectPermissions.Contains(_operation))
-            {
-                throw new UnauthorizedAccessException($"Player {_playerId} is not authorized to perform operation '{_operation}' on object {_objectId}.");
-            }
+            _ = objectPermissions.Contains(_operation)
+                ? true : throw new UnauthorizedAccessException($"Player {_playerId} is not authorized to perform operation '{_operation}' on object {_objectId}.");
         }
     }
 }

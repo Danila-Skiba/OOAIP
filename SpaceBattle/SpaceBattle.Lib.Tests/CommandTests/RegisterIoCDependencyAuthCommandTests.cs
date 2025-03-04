@@ -1,7 +1,5 @@
-using App;
-using Moq;
+﻿using App;
 using App.Scopes;
-using Xunit;
 
 namespace SpaceBattle.Lib.Tests
 {
@@ -20,7 +18,7 @@ namespace SpaceBattle.Lib.Tests
         }
 
         [Fact]
-        public void Execute_ShouldRegisterAuthCommandDependency()
+        public void Execute_RegistersAuthCommand()
         {
             // Arrange
             var registerAuthDependencies = new RegisterAuthDependencies();
@@ -40,7 +38,7 @@ namespace SpaceBattle.Lib.Tests
         }
 
         [Fact]
-        public void Execute_ShouldThrowException_IfDependencyNotRegistered()
+        public void Execute_ThrowsIfDependencyNotRegistered()
         {
             // Arrange
             // Act & Assert
@@ -52,6 +50,25 @@ namespace SpaceBattle.Lib.Tests
                     "Fire"     // operation
                 )
             );
+        }
+
+        [Fact]
+        public void Execute_RegistersAndResolvesCorrectly()
+        {
+            // Arrange
+            var registerAuthDependencies = new RegisterAuthDependencies();
+            registerAuthDependencies.Execute();
+
+            // Act
+            var authCommand = Ioc.Resolve<ICommand>(
+                "Commands.Auth",
+                "player1", // playerId
+                "ship1",   // objectId
+                "Fire"     // operation
+            );
+
+            // Assert
+            Assert.IsType<AuthCommand>(authCommand);
         }
     }
 }
