@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="core">
+      <HintPath>..\Common\core.dll</HintPath>
+    </Reference>
+    <Reference Include="scopes">
+      <HintPath>..\Common\scopes.dll</HintPath>
+    </Reference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="xunit" Version="2.4.2" />
@@ -23,5 +29,8 @@
     </PackageReference>
     <ProjectReference Include="..\SpaceBattle.Lib\SpaceBattle.Lib.csproj" />
   </ItemGroup>
+
+
+
 
 </Project>
