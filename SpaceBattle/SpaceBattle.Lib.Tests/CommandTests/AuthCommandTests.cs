@@ -1,19 +1,21 @@
-using App;
-using Moq;
-using System;
-using System.Collections.Generic;
-using Xunit;
+﻿using App;
 using App.Scopes;
 
 namespace SpaceBattle.Lib.Tests
 {
     public class AuthCommandTests : IDisposable
     {
-         public AuthCommandTests()
+        public AuthCommandTests()
         {
             new InitCommand().Execute();
             var iocScope = Ioc.Resolve<object>("IoC.Scope.Create");
             Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Set", iocScope).Execute();
+            new RegisterIocDependencyGameRepository().Execute();
+        }
+
+        public void Dispose()
+        {
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
         }
 
         [Fact]
@@ -24,24 +26,9 @@ namespace SpaceBattle.Lib.Tests
             var objectId = "ship1";
             var operation = "Fire";
 
-            var playerObjects = new List<string> { objectId };
-            var playerPermissions = new Dictionary<string, List<string>>
-            {
-                { objectId, new List<string> { operation } }
-            };
-
-            // Регистрируем зависимости в IoC
-            Ioc.Resolve<App.ICommand>(
-                "IoC.Register",
-                "Players.GetObjects",
-                (object[] args) => playerObjects
-            ).Execute();
-
-            Ioc.Resolve<App.ICommand>(
-                "IoC.Register",
-                "Players.GetPermissions",
-                (object[] args) => playerPermissions
-            ).Execute();
+            // Добавляем объекты и права игрока в репозиторий
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{playerId}_objects", new List<string> { objectId }).Execute();
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{objectId}_permissions", new List<string> { operation }).Execute();
 
             var authCommand = new AuthCommand(playerId, objectId, operation);
 
@@ -60,24 +47,9 @@ namespace SpaceBattle.Lib.Tests
             var objectId = "ship1";
             var operation = "Fire";
 
-            var playerObjects = new List<string> { "ship2" }; 
-            var playerPermissions = new Dictionary<string, List<string>>
-            {
-                { objectId, new List<string> { operation } }
-            };
-
-            // Регистрируем зависимости в IoC
-            Ioc.Resolve<App.ICommand>(
-                "IoC.Register",
-                "Players.GetObjects",
-                (object[] args) => playerObjects
-            ).Execute();
-
-            Ioc.Resolve<App.ICommand>(
-                "IoC.Register",
-                "Players.GetPermissions",
-                (object[] args) => playerPermissions
-            ).Execute();
+            // Добавляем объекты и права игрока в репозиторий
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{playerId}_objects", new List<string> { "ship2" }).Execute(); // Игрок не владеет ship1
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{objectId}_permissions", new List<string> { operation }).Execute();
 
             var authCommand = new AuthCommand(playerId, objectId, operation);
 
@@ -94,24 +66,9 @@ namespace SpaceBattle.Lib.Tests
             var objectId = "ship1";
             var operation = "Fire";
 
-            var playerObjects = new List<string> { objectId };
-            var playerPermissions = new Dictionary<string, List<string>>
-            {
-                { objectId, new List<string> { "Move" } }
-            };
-
-            // Регистрируем зависимости в IoC
-            Ioc.Resolve<App.ICommand>(
-                "IoC.Register",
-                "Players.GetObjects",
-                (object[] args) => playerObjects
-            ).Execute();
-
-            Ioc.Resolve<App.ICommand>(
-                "IoC.Register",
-                "Players.GetPermissions",
-                (object[] args) => playerPermissions
-            ).Execute();
+            // Добавляем объекты и права игрока в репозиторий
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{playerId}_objects", new List<string> { objectId }).Execute();
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{objectId}_permissions", new List<string> { "Move" }).Execute(); // Нет права на "Fire"
 
             var authCommand = new AuthCommand(playerId, objectId, operation);
 
@@ -119,9 +76,81 @@ namespace SpaceBattle.Lib.Tests
             var exception = Assert.Throws<UnauthorizedAccessException>(() => authCommand.Execute());
             Assert.Equal($"Player {playerId} is not authorized to perform operation '{operation}' on object {objectId}.", exception.Message);
         }
-        public void Dispose()
+
+        [Fact]
+        public void Execute_PlayerHasNoObjects_ThrowsUnauthorizedAccessException()
         {
-            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+            // Arrange
+            var playerId = "player1";
+            var objectId = "ship1";
+            var operation = "Fire";
+
+            // Добавляем пустой список объектов игрока в репозиторий
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{playerId}_objects", new List<string>()).Execute();
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{objectId}_permissions", new List<string> { operation }).Execute();
+
+            var authCommand = new AuthCommand(playerId, objectId, operation);
+
+            // Act & Assert
+            var exception = Assert.Throws<UnauthorizedAccessException>(() => authCommand.Execute());
+            Assert.Equal($"Player {playerId} does not own object {objectId}.", exception.Message);
+        }
+
+        [Fact]
+        public void Execute_ObjectHasNoPermissions_ThrowsUnauthorizedAccessException()
+        {
+            // Arrange
+            var playerId = "player1";
+            var objectId = "ship1";
+            var operation = "Fire";
+
+            // Добавляем объекты игрока в репозиторий, но не добавляем права
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{playerId}_objects", new List<string> { objectId }).Execute();
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{objectId}_permissions", new List<string>()).Execute();
+
+            var authCommand = new AuthCommand(playerId, objectId, operation);
+
+            // Act & Assert
+            var exception = Assert.Throws<UnauthorizedAccessException>(() => authCommand.Execute());
+            Assert.Equal($"Player {playerId} is not authorized to perform operation '{operation}' on object {objectId}.", exception.Message);
+        }
+
+        [Fact]
+        public void Execute_EmptyObjectList_ThrowsUnauthorizedAccessException()
+        {
+            // Arrange
+            var playerId = "player1";
+            var objectId = "ship1";
+            var operation = "Fire";
+
+            // Добавляем пустой список объектов игрока в репозиторий
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{playerId}_objects", new List<string>()).Execute();
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{objectId}_permissions", new List<string> { operation }).Execute();
+
+            var authCommand = new AuthCommand(playerId, objectId, operation);
+
+            // Act & Assert
+            var exception = Assert.Throws<UnauthorizedAccessException>(() => authCommand.Execute());
+            Assert.Equal($"Player {playerId} does not own object {objectId}.", exception.Message);
+        }
+
+        [Fact]
+        public void Execute_EmptyPermissionsList_ThrowsUnauthorizedAccessException()
+        {
+            // Arrange
+            var playerId = "player1";
+            var objectId = "ship1";
+            var operation = "Fire";
+
+            // Добавляем объекты игрока в репозиторий, но пустой список прав
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{playerId}_objects", new List<string> { objectId }).Execute();
+            Ioc.Resolve<ICommand>("Game.Item.Add", $"{objectId}_permissions", new List<string>()).Execute();
+
+            var authCommand = new AuthCommand(playerId, objectId, operation);
+
+            // Act & Assert
+            var exception = Assert.Throws<UnauthorizedAccessException>(() => authCommand.Execute());
+            Assert.Equal($"Player {playerId} is not authorized to perform operation '{operation}' on object {objectId}.", exception.Message);
         }
     }
 }

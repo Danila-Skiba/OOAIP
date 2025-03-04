@@ -1,7 +1,4 @@
-using App;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using App;
 
 namespace SpaceBattle.Lib
 {
@@ -20,13 +17,16 @@ namespace SpaceBattle.Lib
 
         public void Execute()
         {
-            var playerObjects = Ioc.Resolve<IEnumerable<string>>("Players.GetObjects", _playerId);
-
+            // Получаем объекты игрока через репозиторий
+            var playerObjects = (List<string>)Ioc.Resolve<object>("Game.Item.Get", $"{_playerId}_objects") ?? new List<string>();
             if (!playerObjects.Contains(_objectId))
+            {
                 throw new UnauthorizedAccessException($"Player {_playerId} does not own object {_objectId}.");
+            }
 
-            var playerPermissions = Ioc.Resolve<Dictionary<string, List<string>>>("Players.GetPermissions", _playerId);
-            if (!playerPermissions.TryGetValue(_objectId, out var permissions) || !permissions.Contains(_operation))
+            // Получаем права объекта через репозиторий
+            var objectPermissions = (List<string>)Ioc.Resolve<object>("Game.Item.Get", $"{_objectId}_permissions") ?? new List<string>();
+            if (!objectPermissions.Contains(_operation))
             {
                 throw new UnauthorizedAccessException($"Player {_playerId} is not authorized to perform operation '{_operation}' on object {_objectId}.");
             }
